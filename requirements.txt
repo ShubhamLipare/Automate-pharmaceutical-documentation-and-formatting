@@ -1,3 +1,12 @@
+python-dotenv
+ipykernel
 langchain
+langchain-core
+langchain-community
+langchain-huggingface
+langchain-groq
+langchain-google-genai
+setuptools
+fastembed
 
 -e .

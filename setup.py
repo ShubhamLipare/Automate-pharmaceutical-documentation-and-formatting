@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="ai-owners-manual",
+    name="Automate documentation and formatting",
     version="0.1.0",
     description="Automate pharmaceutical documentation and formatting",
     author="Shubham",
