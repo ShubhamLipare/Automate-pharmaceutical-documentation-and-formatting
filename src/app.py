@@ -1,5 +1,7 @@
 from exceptions.custom_exception import CustomException
-from logger import Global_logger as log
+from logger import GLOBAL_LOGGER as log
+from utils.config_loader import load_config
+from utils.model_loader import ModelLoader
 
 
 log.info("adding custom logging")
