@@ -9,5 +9,6 @@ langchain-google-genai
 setuptools
 fastembed
 pymupdf
+faiss-cpu==1.13.2
 
 -e .

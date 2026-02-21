@@ -13,8 +13,9 @@ class DocumentLoader:
 
     def __init__(self):
         self.root_path=root_path()
+        self.session_id=generate_session_id()
  
-    def load_doc(self,files):
+    def load_doc(self,files,loaded_path):
         try:
             documents=[]
             for file in files:
@@ -36,7 +37,7 @@ class DocumentLoader:
                 documents.extend(loader.load())
 
             #saving loaded document for validation on local
-            loaded_doc_path=os.path.join(self.root_path,"data","loaded_doc")
+            loaded_doc_path=loaded_path
             os.makedirs(loaded_doc_path,exist_ok=True)
             file_path=os.path.join(loaded_doc_path,"loaded_doc.txt")
             with open(file_path,"w",encoding="utf-8") as f:
@@ -44,7 +45,7 @@ class DocumentLoader:
                     f.write(f"{'*'*40} Document {i+1} {'*'*40}\n")
                     f.write(doc.page_content + "\n")
 
-            log.info("Document loaded successfully.")
+            log.info(f"Document loaded successfully path:{loaded_doc_path}")
             return documents
         except Exception as e:
             log.error(f"Error while loading document, {e}")
