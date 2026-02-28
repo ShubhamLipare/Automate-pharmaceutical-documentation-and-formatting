@@ -10,5 +10,11 @@ setuptools
 fastembed
 pymupdf
 faiss-cpu==1.13.2
+langgraph
+bcrypt
+streamlit
+fastapi
+uvicorn 
+python-multipart
 
 -e .

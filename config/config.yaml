@@ -13,7 +13,7 @@ llm:
     provider: "groq"
     model_name: "llama-3.3-70b-versatile"
     temperature: 0.3
-    max_output_tokens: 2048
+    max_output_tokens: 10000
 
   google:
     provider: "google"
