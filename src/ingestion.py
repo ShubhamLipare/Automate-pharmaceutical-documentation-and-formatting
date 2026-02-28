@@ -11,8 +11,8 @@ import hashlib
 from src.document_loader import DocumentLoader
 
 class FaissManager:
-    def __init__(self):
-        self.index_path=os.path.join(root_path(),"faiss_index")
+    def __init__(self,session_path):
+        self.index_path=os.path.join(session_path,"faiss_index")
         os.makedirs(self.index_path,exist_ok=True)
         self.meta_path = os.path.join(self.index_path,"ingested_meta.json")
         self._meta={"rows": {}}
@@ -78,11 +78,11 @@ class FaissManager:
             log.info(f"Added {len(new_docs)} new documents to FAISS index.") 
 
 class DataIngestion:
-    def __init__(self):
-        self.session_id = generate_session_id()
+    def __init__(self,session_id):
+        self.session_id = session_id
         self.session_path = os.path.join(root_path(),"data",self.session_id)
         #self.uploads_path = self.session_path / "uploads"
-        self.uploads_path = os.path.join(root_path(),"data","uploads")
+        self.uploads_path = os.path.join(self.session_path,"uploads")
         self.doc_loader=DocumentLoader()
         self.loaded_doc_path=os.path.join(root_path(),"data",self.session_id,"loaded_doc")
 
@@ -113,14 +113,14 @@ class DataIngestion:
     def build_retriever(self,uploaded_files,chunk_size,chunk_overlap,k):
         try:
             log.info(f"Starting retriever build for session {self.session_id} with {len(uploaded_files)} files.")
-            saved_files = save_uploaded_file(uploaded_files, self.uploads_path)
-            documents = self.doc_loader.load_doc(saved_files,self.loaded_doc_path)
+            #aved_files = save_uploaded_file(uploaded_files, self.uploads_path)
+            documents = self.doc_loader.load_doc(uploaded_files,self.loaded_doc_path)
             chunks = self.chunk_and_store(documents, chunk_size=chunk_size, chunk_overlap=chunk_overlap)
-            fm = FaissManager()
+            fm = FaissManager(self.session_path)
             vs=fm.load_or_create_index(chunks)
             fm.add_documents(chunks)
             log.info(f"Retriever built successfully for session {self.session_id}.")
-            #return vs.as_retriever(search_type="similarity", search_kwargs={"k":k})
+            return vs.as_retriever(search_type="similarity", search_kwargs={"k":k})
         
         except CustomException as ce:
             log.error(f"Building retriever failed: {ce}")

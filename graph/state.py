@@ -5,6 +5,7 @@ from schema.report_schema import BusinessReport
 class GraphState(TypedDict):
     session_id: Optional[str]
     user_query: str
+    session_path:str
     retrieved_chunks: List[str]
 
     research_notes: Optional[str]
